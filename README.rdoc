@@ -1,0 +1,21 @@
+== Trustease README
+
+This webapp is a simple way for church trustees to manage their projects.
+
+Things you can do:
+
+* Create Projects
+
+* Create Steps to Complete Projects
+
+* Create Workers and Their Info for Projects
+
+Still To Do:
+
+* Users
+
+* Mark Steps Complete and Sync With A Progress Bar
+
+* Move Steps Up and Down
+
+* Delete Dependents

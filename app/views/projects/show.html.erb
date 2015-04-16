@@ -1,0 +1,138 @@
+<div class="row clearfix">
+	<div class="col-md-12 column">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+          <%= @project.title %>
+				</h3>
+			</div>
+			<div class="panel-body">
+        <%= @project.description %>
+			</div>
+			<div class="panel-footer">
+        <p>
+					<%= link_to "Back", projects_path, class: "btn btn-default" %>
+					<%= link_to "Edit", edit_project_path(@project), class: "btn btn-default"%>
+					<%= link_to "Delete", project_path(@project), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning pull-right" %>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row clearfix">
+  <div class="col-md-6 column">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+          <h3 class="panel-title">
+              Workers
+              <div class='pull-right'><span class="glyphicon glyphicon-collapse-down"></span></div>
+          </h3>
+        </a>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse.in">
+        <ul class='list-group'>
+          <% @project.workers.each do |worker| %>
+          <% next if worker.new_record? %>
+            <li class="list-group-item">
+              <p>
+                <strong><%= worker.name %></strong>
+								<% if @project.trustee_id == current_trustee.id %>
+	                <%= link_to [worker.project, worker],method: :delete,data: { confirm: 'Are you sure?' } do %>
+	                  <span class='glyphicon glyphicon-remove'></span>
+	                <% end %>
+								<% end %>
+              </p>
+              <p><%= worker.number %>, <%= worker.email %></p>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="panel-footer">
+        <!-- Button trigger AddWorkerModal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddWorker">
+          Add Worker
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 column">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2">
+          <h3 class="panel-title">
+            Steps
+            <div class='pull-right'><span class="glyphicon glyphicon-collapse-down"></span></div>
+          </h3>
+        </a>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse.in">
+        <div class="panel-body">
+					<table class="table" id="sortable">
+						<thead>
+							<tr>
+								<th>Completed</th>
+								<th>Step</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @project.steps.each do |step| %>
+								<tr data-item-id="<%= step.id %>" class="item">
+									<td><input type="checkbox"></td>
+									<td><%= step.name %></td>
+									<td>
+										<%= link_to [step.project, step], method: :delete, data: { confirm: 'Are you sure?' } do %>
+											<span class='glyphicon glyphicon-remove pull-right'></span>
+										<% end %>
+									</td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+      	</div>
+      <div class="panel-footer">
+        <!-- Button trigger AddStepModal -->
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#AddStep">
+          Add Step
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add A Worker Modal -->
+<div class="modal fade" id="AddWorker" tabindex="-1" role="dialog" aria-labelledby="AddWorkerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="AddWorkerLabel">Add A Worker</h4>
+      </div>
+      <div class="modal-body">
+        <%= render "workers/form" %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add A Step Modal -->
+<div class="modal fade" id="AddStep" tabindex="-1" role="dialog" aria-labelledby="AddStepLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="AddWorkerLabel">Add A Step</h4>
+      </div>
+      <div class="modal-body">
+        <%= render "steps/form" %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

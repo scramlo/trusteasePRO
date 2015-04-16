@@ -1,0 +1,42 @@
+<div class="container">
+	<div class="row">
+		<div class="col-lg-6">
+			<% if trustee_signed_in? %>
+				<div class='text-center'>
+	        <h1>
+	          Hey <%= current_trustee.firstname %>!
+	        </h1>
+	        <p>
+	          <%= link_to "All Projects", projects_path, class: "btn btn-primary" %>
+	          <%= link_to "My Projects", myprojects_path, class: "btn btn-default" %>
+	        </p>
+				</div>
+      <% else %>
+        <h1>
+          Welcome to Trust<i>ease</i>PRO!
+        </h1>
+        <p>
+          A simple way for Church Trustees to manage projects and progress.
+        </p>
+        <p>
+          <%= link_to "Sign Up", new_trustee_registration_path, class: "btn btn-primary" %>
+          <%= link_to "Sign In", new_trustee_session_path, class: "btn btn-default" %>
+        </p>
+      <% end %>
+		</div>
+		<div class="col-lg-4 col-lg-offset-2">
+			<% if trustee_signed_in? %>
+				<div class="panel panel-info">
+					<div class="panel-heading"><span class="glyphicon glyphicon-info-sign"></span> Still Working On:</div>
+						<div class="panel-body">
+							<ul>
+								<li>Drag and drop order of Steps will not save</li>
+								<li>Checkbox on Steps will not do anything (yet)</li>
+							</ul>
+						</div>
+				</div>
+			<% end %>
+		</div>
+
+	</div>
+</div>

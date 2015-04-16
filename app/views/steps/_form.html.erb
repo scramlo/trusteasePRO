@@ -1,0 +1,9 @@
+<%= form_for([@project, @project.steps.build]) do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, autofocus: true, class: "form-control" %>
+  </div>
+  <p>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
+  </p>
+<% end %>

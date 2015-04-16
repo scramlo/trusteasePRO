@@ -1,0 +1,1683 @@
+  [1m[36m (7.7ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL) [0m
+  [1m[35m (2.7ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateProjects (20150402023932)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (8.8ms)[0m  [1mCREATE TABLE "projects" ("id" serial primary key, "title" character varying, "description" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150402023932"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateWorkers (20150402123734)
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (6.9ms)[0m  [1mCREATE TABLE "workers" ("id" serial primary key, "name" character varying, "number" character varying, "email" character varying, "project_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.6ms)[0m  CREATE  INDEX  "index_workers_on_project_id" ON "workers"  ("project_id")
+  [1m[36m (4.7ms)[0m  [1mALTER TABLE "workers" ADD CONSTRAINT "fk_rails_5dfc2c8481"
+FOREIGN KEY ("project_id")
+  REFERENCES "projects" ("id")
+[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150402123734"]]
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+Migrating to CreateSteps (20150402160039)
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (6.3ms)[0m  [1mCREATE TABLE "steps" ("id" serial primary key, "name" character varying, "project_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.4ms)[0m  CREATE  INDEX  "index_steps_on_project_id" ON "steps"  ("project_id")
+  [1m[36m (2.4ms)[0m  [1mALTER TABLE "steps" ADD CONSTRAINT "fk_rails_aa2ccc8984"
+FOREIGN KEY ("project_id")
+  REFERENCES "projects" ("id")
+[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150402160039"]]
+  [1m[36m (0.8ms)[0m  [1mCOMMIT[0m
+Migrating to AddDoneToSteps (20150404062904)
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (0.7ms)[0m  [1mALTER TABLE "steps" ADD "done" boolean[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150404062904"]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Migrating to DeviseCreateTrustees (20150409111146)
+  [1m[35m (0.2ms)[0m  BEGIN
+DEPRECATION WARNING: `#timestamp` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/brian/rails/TrusteasePRO/db/migrate/20150409111146_devise_create_trustees.rb:34)
+  [1m[36m (8.2ms)[0m  [1mCREATE TABLE "trustees" ("id" serial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying, "last_sign_in_ip" character varying, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (1.6ms)[0m  CREATE UNIQUE INDEX  "index_trustees_on_email" ON "trustees"  ("email")
+  [1m[36m (1.5ms)[0m  [1mCREATE UNIQUE INDEX  "index_trustees_on_reset_password_token" ON "trustees"  ("reset_password_token")[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150409111146"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+Migrating to AddFirstnameToTrustee (20150409120930)
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "trustees" ADD "firstname" character varying[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150409120930"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+Migrating to AddLastNameToTrustee (20150409120958)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "trustees" ADD "lastname" character varying[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150409120958"]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Migrating to AddTrusteeIdToProjects (20150409160330)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "projects" ADD "trustee_id" integer[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150409160330"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+Migrating to AddPriorityToSteps (20150410202045)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "steps" ADD "priority" integer[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150410202045"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+Migrating to AddRowOrderToSteps (20150410215757)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.5ms)[0m  [1mALTER TABLE "steps" ADD "row_order" integer[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20150410215757"]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (7.6ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'projects'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (7.0ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'steps'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (6.7ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'trustees'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (6.8ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'workers'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+
+
+Started GET "/" for ::1 at 2015-04-16 09:41:47 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by HomeController#index as HTML
+  [1m[35mTrustee Load (1.2ms)[0m  SELECT  "trustees".* FROM "trustees" WHERE "trustees"."id" = $1  ORDER BY "trustees"."id" ASC LIMIT 1  [["id", 1]]
+  Rendered home/index.html.erb within layouts/application (41.4ms)
+  Rendered layouts/_navbar.html.erb (62.8ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 9126ms (Views: 9066.8ms | ActiveRecord: 10.6ms)
+
+
+Started GET "/" for ::1 at 2015-04-16 09:41:58 -0500
+Processing by HomeController#index as HTML
+  [1m[36mTrustee Load (3.3ms)[0m  [1mSELECT  "trustees".* FROM "trustees" WHERE "trustees"."id" = $1  ORDER BY "trustees"."id" ASC LIMIT 1[0m  [["id", 1]]
+  Rendered home/index.html.erb within layouts/application (6.1ms)
+  Rendered layouts/_navbar.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 416ms (Views: 411.5ms | ActiveRecord: 3.3ms)
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/application-d7ac73bbc902a45e37c3c041aa39bc04.css?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:41:59 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:42:44 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (2.4ms)
+  Rendered layouts/_navbar.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 345ms (Views: 344.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/application-d7ac73bbc902a45e37c3c041aa39bc04.css?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:42:44 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:42:56 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (2.2ms)
+  Rendered layouts/_navbar.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 357ms (Views: 356.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/application-d7ac73bbc902a45e37c3c041aa39bc04.css?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:42:57 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:43:20 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (0.8ms)
+  Rendered layouts/_navbar.html.erb (2.5ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 308ms (Views: 307.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/application-d7ac73bbc902a45e37c3c041aa39bc04.css?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:43:21 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:44:06 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (1.1ms)
+  Rendered layouts/_navbar.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 2853ms (Views: 2851.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application-edbbd049525b2e52bb952422b418e6ae.css?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:44:09 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:44:29 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (0.7ms)
+  Rendered layouts/_navbar.html.erb (1.6ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 3179ms (Views: 3178.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/application-e75cf8950fe4b711967d3753a2c23054.css?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:44:32 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:45:00 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (0.7ms)
+  Rendered layouts/_navbar.html.erb (1.6ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 333ms (Views: 332.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/application-e75cf8950fe4b711967d3753a2c23054.css?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:45:01 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:45:10 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (2.1ms)
+  Rendered layouts/_navbar.html.erb (3.0ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 352ms (Views: 350.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/application-e75cf8950fe4b711967d3753a2c23054.css?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:45:11 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:45:12 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:45:19 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (0.9ms)
+  Rendered layouts/_navbar.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 3052ms (Views: 3050.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/application-f38f4e8662bba7fd1d47798eae40a47d.css?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:45:22 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:45:46 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (1.0ms)
+  Rendered layouts/_navbar.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 374ms (Views: 372.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:45:47 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:45:55 -0500
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:55 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:55 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:55 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:55 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:45:55 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:47:22 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (1.0ms)
+  Rendered layouts/_navbar.html.erb (2.1ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 3038ms (Views: 3036.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:25 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:25 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:47:25 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:25 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:25 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:25 -0500
+
+
+Started GET "/assets/application-edbbd049525b2e52bb952422b418e6ae.css?body=1" for ::1 at 2015-04-16 09:47:25 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:47:26 -0500
+
+
+Started GET "/" for ::1 at 2015-04-16 09:47:33 -0500
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (0.8ms)
+  Rendered layouts/_navbar.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 359ms (Views: 357.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/application-edbbd049525b2e52bb952422b418e6ae.css?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:47:34 -0500
+
+
+Started GET "/trustees/sign_in" for ::1 at 2015-04-16 09:47:49 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (17.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (62.4ms)
+  Rendered layouts/_navbar.html.erb (0.8ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 445ms (Views: 427.8ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/trustees/sign_in" for ::1 at 2015-04-16 09:47:50 -0500
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VAYPqM9PjHsyav+Ocry9y9033H7iL7olc2Mo5MlSGkSqsDD7Yf5OTBGQArRezGH2832zCrv+z6YTfJyc6eQunA==", "trustee"=>{"email"=>"bscramlin@spoonerwesleyan.org", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[35mTrustee Load (0.7ms)[0m  SELECT  "trustees".* FROM "trustees" WHERE "trustees"."email" = $1  ORDER BY "trustees"."id" ASC LIMIT 1  [["email", "bscramlin@spoonerwesleyan.org"]]
+Completed 401 Unauthorized in 6ms
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VAYPqM9PjHsyav+Ocry9y9033H7iL7olc2Mo5MlSGkSqsDD7Yf5OTBGQArRezGH2832zCrv+z6YTfJyc6eQunA==", "trustee"=>{"email"=>"bscramlin@spoonerwesleyan.org", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  Rendered devise/shared/_links.html.erb (10.2ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (24.5ms)
+  Rendered layouts/_navbar.html.erb (0.5ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 487ms (Views: 369.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/application-edbbd049525b2e52bb952422b418e6ae.css?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:47:51 -0500
+
+
+Started POST "/trustees/sign_in" for ::1 at 2015-04-16 09:47:54 -0500
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"w6ZiPjiui32m/2VMap/559Y0Mo91wsOCQJq1ke7wyCE9EF1tlh9JSoUFmHZG7yXa+H5d+ywTtgEghQHpzkb8+Q==", "trustee"=>{"email"=>"bscramlin@spoonerwesleyan.org", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mTrustee Load (0.7ms)[0m  [1mSELECT  "trustees".* FROM "trustees" WHERE "trustees"."email" = $1  ORDER BY "trustees"."id" ASC LIMIT 1[0m  [["email", "bscramlin@spoonerwesleyan.org"]]
+Completed 401 Unauthorized in 4ms
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"w6ZiPjiui32m/2VMap/559Y0Mo91wsOCQJq1ke7wyCE9EF1tlh9JSoUFmHZG7yXa+H5d+ywTtgEghQHpzkb8+Q==", "trustee"=>{"email"=>"bscramlin@spoonerwesleyan.org", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  Rendered devise/shared/_links.html.erb (10.0ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (22.5ms)
+  Rendered layouts/_navbar.html.erb (0.6ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 529ms (Views: 402.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:54 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:54 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:54 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:54 -0500
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/application-edbbd049525b2e52bb952422b418e6ae.css?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:47:55 -0500
+
+
+Started POST "/trustees/sign_in" for ::1 at 2015-04-16 09:47:59 -0500
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"moOt618SyWETrwB5P/aolv+O33WbmUWtmL+php0k1MlkNZK48aMLVjBV/UMThnSr0cSwAcJIMC74oB3+vZLgEQ==", "trustee"=>{"email"=>"bscramlin@spoonerwesleyan.org", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[35mTrustee Load (0.6ms)[0m  SELECT  "trustees".* FROM "trustees" WHERE "trustees"."email" = $1  ORDER BY "trustees"."id" ASC LIMIT 1  [["email", "bscramlin@spoonerwesleyan.org"]]
+Completed 401 Unauthorized in 3ms
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"moOt618SyWETrwB5P/aolv+O33WbmUWtmL+php0k1MlkNZK48aMLVjBV/UMThnSr0cSwAcJIMC74oB3+vZLgEQ==", "trustee"=>{"email"=>"bscramlin@spoonerwesleyan.org", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  Rendered devise/shared/_links.html.erb (7.8ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (15.0ms)
+  Rendered layouts/_navbar.html.erb (0.5ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 457ms (Views: 362.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery-ui.min-f93429341197a0786b5e277043b214e0.css?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/home-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/myprojects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/steps-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/projects-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/workers-64e62ddc273c2f5847f30d698ca14b67.css?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/application-edbbd049525b2e52bb952422b418e6ae.css?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/jquery-87424c3c19e96d4fb033c10ebe21ec40.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/affix-86647d01ace516e05ddf78d2b6e85e20.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/alert-2a2796d28d7833f423ee421a3ad297bb.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/button-6b326d9b5034209f30109e77c264a190.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/carousel-31dbb9c732fc2da02b8d5a97d9ae0047.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/collapse-624b0c6035c65b5be6ae581d8dc4e196.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/scrollspy-3892c697f57b7e7b9d5993044235a210.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/transition-264673896da1e31c3b865db964cd6592.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/dropdown-ce1bbc536745c41510513f7274f9897c.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/tab-6f45b70c6440bd0222c171dd7a926b5d.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/modal-77a0e72df31a788e4f6a3f28370eb69e.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/tooltip-718496fb53635605964fb77613425c8d.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/popover-3dcfaa462d273d183ef52064ce120a5b.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/jquery_ujs-e27bd20a10d28155845a22d71ef94f2f.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap-sprockets-830839b3b00123a30d090955aa74da5c.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/turbolinks-f87b3583ca50adb0488b031297f5580d.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/jquery-ui.min-26542581bb3d624485747d2bed597aa9.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/home-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/projects-b73f59b9f2cb136309e7fba34e1952b1.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/myprojects-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/steps-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/workers-fcec5b5a277ac7c20cc9f45a209a3bcd.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/application-3c7da2d213f4b40847abd54c4b92c2bf.js?body=1" for ::1 at 2015-04-16 09:48:00 -0500
+
+
+Started GET "/assets/bootstrap/glyphicons-halflings-regular-3b21d33cc4addb2ebfe7f625dad8559b.woff2" for ::1 at 2015-04-16 09:48:00 -0500
